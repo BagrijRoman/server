@@ -1,10 +1,15 @@
+const { handleApiError } = require('../helpers/hadleApiError');
+const { STATUS_CODES } = require('../const/responseStatusCodes');
 
 const requireAuth = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const { user } = req;
+  
+  if (!authHeader || !user) {
+    return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'Authorization is required' });
+  } 
 
-  // check is req.user exists
-  // check is token present in request
-
-
+  next();
 };
 
 module.exports = {

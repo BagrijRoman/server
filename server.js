@@ -18,6 +18,8 @@ app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 
+app.use('/profile', require('./routes/userProfile'));
+
 
 
 const port = process.env.PORT || 4000

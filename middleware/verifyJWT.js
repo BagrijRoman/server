@@ -1,14 +1,40 @@
-const verifyJWT = (req, res, next) => {
-  const someUser = {
-    _id: '213123123123123123',
-    name: 'UserName',
+const { handleApiError } = require('../helpers/hadleApiError');
+const { STATUS_CODES } = require('../const/responseStatusCodes');
+const { tokenHelper } = require('../helpers/tokenHelper');
+const { Users } = require('../models/Users');
+
+const verifyJWT = async (req, res, next) => {
+  try {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader) {
+      // todo add logger here
+      console.log('No auth header provided');
+
+      req.user = null;
+      return next();
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    let decoded
+
+    try {
+      decoded = await tokenHelper.verifyAccessToken(token, () => {
+      });
+    } catch (err) {
+      // todo logger
+      return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'Authorization is required' });
+    }
+
+    const { userId, email } = decoded;
+    const userRecord = await Users.findOne({ _id: userId, email }, { password : 0 });
+
+    req.user = userRecord;
+    next();
+  } catch (err) {
+    return handleApiError(res, STATUS_CODES.INTERNAL_SERVER_ERROR, { err: err.toString() });
   }
-
-  console.log('verify jwt');
-
-  // req.user = someUser;
-
-  next();
 }
 
 module.exports = { verifyJWT };

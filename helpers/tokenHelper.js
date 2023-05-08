@@ -7,17 +7,23 @@ const generateTokens = (tokenData) => ({
   accessToken: jwt.sign(
     tokenData,
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: process.env.ACCESS_TOKEN_LIFETIME }
+    { expiresIn: ACCESS_TOKEN_LIFETIME }
   ),
   refreshToken: jwt.sign(
     tokenData,
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: process.env.REFRESH_TOKEN_LIFETIME }
+    { expiresIn: REFRESH_TOKEN_LIFETIME }
   ),
 });
 
+const verifyAccessToken = async (token) => jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+const verifyRefreshToken = async (token) => jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+
 tokenHelper = {
-  generateTokens
+  generateTokens,
+  verifyAccessToken,
+  verifyRefreshToken,
 }
 
 module.exports = {
