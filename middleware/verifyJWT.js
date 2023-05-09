@@ -25,9 +25,8 @@ const verifyJWT = async (req, res, next) => {
     }
 
     const { userId, email } = decoded;
-    const userRecord = await Users.findOne({ _id: userId, email, deleted: false }, { password : 0 });
 
-    req.user = userRecord;
+    req.user = await Users.findOne({ _id: userId, email, deleted: false }, { password : 0 });
     next();
   } catch (err) {
     return handleApiError(res, STATUS_CODES.INTERNAL_SERVER_ERROR, { err: err.toString() });
