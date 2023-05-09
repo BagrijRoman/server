@@ -2,7 +2,7 @@ const { handleApiError } = require('../helpers/hadleApiError');
 const { STATUS_CODES } = require('../const/responseStatusCodes');
 
 const requireAuth = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['Authorization'];
   const { user } = req;
   
   if (!authHeader || !user) {

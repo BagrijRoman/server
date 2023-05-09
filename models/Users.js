@@ -7,6 +7,10 @@ const UsersSchema = new Schema({
     unique: true,
   },
   password: String,
+  deleted: {
+    type: Boolean,
+    default: false,
+  }
 }, {
   timestamps: true,
 });

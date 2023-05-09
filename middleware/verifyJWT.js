@@ -5,10 +5,9 @@ const { Users } = require('../models/Users');
 
 const verifyJWT = async (req, res, next) => {
   try {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers['Authorization'];
 
     if (!authHeader) {
-      // todo add logger here
       console.log('No auth header provided');
 
       req.user = null;
@@ -16,19 +15,17 @@ const verifyJWT = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-
     let decoded
 
     try {
-      decoded = await tokenHelper.verifyAccessToken(token, () => {
-      });
+      decoded = await tokenHelper.verifyAccessToken(token);
     } catch (err) {
       // todo logger
       return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'Authorization is required' });
     }
 
     const { userId, email } = decoded;
-    const userRecord = await Users.findOne({ _id: userId, email }, { password : 0 });
+    const userRecord = await Users.findOne({ _id: userId, email, deleted: false }, { password : 0 });
 
     req.user = userRecord;
     next();

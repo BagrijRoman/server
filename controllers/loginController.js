@@ -1,6 +1,6 @@
 
 
-const loginUser = (req, res, next) => {
+const loginUser = (req, res) => {
 
   console.log('loginUser')
 
