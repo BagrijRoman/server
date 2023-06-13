@@ -6,6 +6,22 @@ const inputValidator = require('../helpers/inputValidator');
 const { Users } = require('../models/Users');
 const { tokenHelper } = require('../helpers/tokenHelper');
 
+/**
+ * @openapi
+ *  components:
+ *    schemas:
+ *      LoginUserInput:
+ *        required:
+ *          - email
+ *          - password
+ *        properties:
+ *          email:
+ *            type: string
+ *            default: testUser@gmail.com
+ *          password:
+ *            type: string
+ *            default: qweqweqwe
+ * */
 
 const loginUser = async (req, res) => {
   try {
