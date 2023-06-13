@@ -5,13 +5,10 @@ const router = express.Router();
 * @openapi
 * /test:
 *   get:
-*     tag:
-*       - healthcheck
 *     description: Responds "OK" if app is up and running
 *     responses:
 *       200:
 *         description: App is up and running
-*
 * */
 
 router.all('/', (req, res) => {

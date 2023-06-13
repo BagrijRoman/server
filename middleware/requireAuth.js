@@ -2,9 +2,9 @@ const { handleApiError } = require('../helpers/hadleApiError');
 const { STATUS_CODES } = require('../const/responseStatusCodes');
 
 const requireAuth = (req, res, next) => {
-  const authHeader = req.headers['Authorization'];
+  const authHeader = req.headers['authorization'];
   const { user } = req;
-  
+
   if (!authHeader || !user) {
     return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'Authorization is required' });
   } 

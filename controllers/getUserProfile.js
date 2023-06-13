@@ -1,9 +1,7 @@
-
 const getUserProfile = async (req, res) => {
+  const { user } = req;
 
-
-  res.json({ data: 'Get user profile route' });
-
+  return res.json({ user });
 };
 
 module.exports = {

@@ -5,7 +5,7 @@ const { Users } = require('../models/Users');
 
 const verifyJWT = async (req, res, next) => {
   try {
-    const authHeader = req.headers['Authorization'];
+    const authHeader = req.headers['authorization'];
 
     if (!authHeader) {
       console.log('No auth header provided');
