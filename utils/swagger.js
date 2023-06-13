@@ -10,7 +10,7 @@ const swaggerOptions = {
       version,
     },
     components: {
-      securitySchemas: {
+      securitySchemes: {
         bearerAuth: {
           type: 'http',
           scheme: 'bearer',
@@ -26,7 +26,8 @@ const swaggerOptions = {
   },
   apis: [
     './routes/*.js',
-    './models/*.js'
+    './models/*.js',
+    './controllers/*.js'
   ],
 };
 
