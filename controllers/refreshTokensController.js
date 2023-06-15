@@ -3,6 +3,19 @@ const { STATUS_CODES } = require('../const/responseStatusCodes');
 const { tokenHelper } = require('../helpers/tokenHelper');
 const { Users } = require('../models/Users');
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    RefreshTokensInput:
+ *      required:
+ *        - refreshToken
+ *      properties:
+ *        refreshToken:
+ *          type: string
+ *          default: refresh_token_value
+ * */
+
 const handleRefreshTokens = async (req, res) => {
   try {
     const { refreshToken } = req.body;
