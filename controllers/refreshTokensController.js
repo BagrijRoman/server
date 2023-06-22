@@ -1,7 +1,7 @@
-const { handleApiError } = require('../helpers/hadleApiError');
-const { STATUS_CODES } = require('../const/responseStatusCodes');
-const { tokenHelper } = require('../helpers/tokenHelper');
-const { Users } = require('../models/Users');
+import { handleApiError } from '../helpers/handleApiError.js';
+import { STATUS_CODES } from '../const/responseStatusCodes.js';
+import { verifyRefreshToken, generateTokens } from '../helpers/tokenHelper.js';
+import { Users } from '../models/Users.js';
 
 /**
  * @openapi
@@ -16,7 +16,7 @@ const { Users } = require('../models/Users');
  *          default: refresh_token_value
  * */
 
-const handleRefreshTokens = async (req, res) => {
+export const handleRefreshTokens = async (req, res) => {
   try {
     const { refreshToken } = req.body;
 
@@ -27,7 +27,7 @@ const handleRefreshTokens = async (req, res) => {
     let decoded;
     
     try {
-      decoded = await tokenHelper.verifyRefreshToken(refreshToken);
+      decoded = await verifyRefreshToken(refreshToken);
     } catch (err) {
       return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'Authorization is required' });
     }
@@ -39,7 +39,7 @@ const handleRefreshTokens = async (req, res) => {
       return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'User not found' });
     }
 
-    const updatedTokens = tokenHelper.generateTokens({ userId: userRecord._id, email });
+    const updatedTokens = generateTokens({ userId: userRecord._id, email });
 
     return res.status(STATUS_CODES.OK).json({
       status: 'OK',
@@ -50,5 +50,3 @@ const handleRefreshTokens = async (req, res) => {
     handleApiError(res, STATUS_CODES.INTERNAL_SERVER_ERROR, { err: err.toString() });
   }
 };
-
-module.exports = { handleRefreshTokens };

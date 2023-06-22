@@ -1,7 +1,7 @@
-const { handleApiError } = require('../helpers/hadleApiError');
-const { STATUS_CODES } = require('../const/responseStatusCodes');
+import { handleApiError } from '../helpers/handleApiError.js';
+import { STATUS_CODES } from '../const/responseStatusCodes.js';
 
-const requireAuth = (req, res, next) => {
+export const requireAuth = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const { user } = req;
 
@@ -10,8 +10,4 @@ const requireAuth = (req, res, next) => {
   } 
 
   next();
-};
-
-module.exports = {
-  requireAuth,
 };

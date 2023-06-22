@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { registerNewUser } from '../controllers/registerController.js';
+
 const router = express.Router();
-const { registerNewUser } = require('../controllers/registerController');
 
 /**
  * @openapi
@@ -26,4 +27,4 @@ const { registerNewUser } = require('../controllers/registerController');
 
 router.post('/', registerNewUser);
 
-module.exports = router;
+export default router;

@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt');
+import  bcrypt from 'bcrypt';
 
-const { handleApiError } = require('../helpers/hadleApiError');
-const { STATUS_CODES } = require('../const/responseStatusCodes');
-const inputValidator = require('../helpers/inputValidator');
-const { Users } = require('../models/Users');
-const { tokenHelper } = require('../helpers/tokenHelper');
+import { handleApiError } from '../helpers/handleApiError.js';
+import { STATUS_CODES } from '../const/responseStatusCodes.js';
+import { validateLoginInput } from '../helpers/inputValidator.js';
+import { Users } from '../models/Users.js';
+import { generateTokens } from '../helpers/tokenHelper.js';
 
 /**
  * @openapi
@@ -23,13 +23,13 @@ const { tokenHelper } = require('../helpers/tokenHelper');
  *            default: qweqweqwe
  * */
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     if (req.user) {
       return handleApiError(res, STATUS_CODES.FORBIDDEN, { err: 'User already logged in' });
     }
 
-    const isDataValid = await inputValidator.validateLoginInput(req.body);
+    const isDataValid = await validateLoginInput(req.body);
 
     if (!isDataValid) {
       return handleApiError(res, STATUS_CODES.UNPROCESSABLE_ENTITY, { err: 'Invalid input data' });
@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
       return handleApiError(res, STATUS_CODES.UNPROCESSABLE_ENTITY, { err: 'Invalid credentials' });
     }
 
-    const tokens = await tokenHelper.generateTokens({ userId: restUserData._id, email });
+    const tokens = await generateTokens({ userId: restUserData._id, email });
 
     return res.status(STATUS_CODES.OK).json({
       ...tokens,
@@ -59,5 +59,3 @@ const loginUser = async (req, res) => {
     handleApiError(res, STATUS_CODES.INTERNAL_SERVER_ERROR, { err: err.toString() });
   }
 };
-
-module.exports = { loginUser };

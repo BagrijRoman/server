@@ -1,9 +1,9 @@
-const { handleApiError } = require('../helpers/hadleApiError');
-const { STATUS_CODES } = require('../const/responseStatusCodes');
-const { tokenHelper } = require('../helpers/tokenHelper');
-const { Users } = require('../models/Users');
+import { handleApiError } from '../helpers/handleApiError.js';
+import { STATUS_CODES } from '../const/responseStatusCodes.js';
+import { verifyAccessToken } from '../helpers/tokenHelper.js';
+import { Users } from '../models/Users.js';
 
-const verifyJWT = async (req, res, next) => {
+export const verifyJWT = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization'];
 
@@ -18,7 +18,7 @@ const verifyJWT = async (req, res, next) => {
     let decoded
 
     try {
-      decoded = await tokenHelper.verifyAccessToken(token);
+      decoded = await verifyAccessToken(token);
     } catch (err) {
       // todo logger
       return handleApiError(res, STATUS_CODES.UNAUTHORIZED, { err: 'Authorization is required' });
@@ -32,5 +32,3 @@ const verifyJWT = async (req, res, next) => {
     return handleApiError(res, STATUS_CODES.INTERNAL_SERVER_ERROR, { err: err.toString() });
   }
 }
-
-module.exports = { verifyJWT };

@@ -1,20 +1,26 @@
-const express = require('express');
+import express from 'express';
 
-const { verifyJWT } = require('./middleware/verifyJWT');
-const { initSwaggerDocs } = require('./utils/swagger');
+import { verifyJWT } from './middleware/verifyJWT.js';
+import { initSwaggerDocs } from './utils/swagger.js';
+
+import testRouter from './routes/test.js';
+import registerRouter from './routes/register.js';
+import loginRouter from './routes/login.js';
+import refreshRouter from './routes/refresh.js';
+import profileRouter from './routes/userProfile.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(verifyJWT);
 
-app.use('/test', require('./routes/test'));
+app.use('/test', testRouter);
 
-app.use('/register', require('./routes/register'));
-app.use('/login', require('./routes/login'));
-app.use('/refresh', require('./routes/refresh'));
+app.use('/register', registerRouter);
+app.use('/login', loginRouter);
+app.use('/refresh', refreshRouter);
 
-app.use('/profile', require('./routes/userProfile'));
+app.use('/profile', profileRouter);
 
 const port = process.env.PORT || 4000
 

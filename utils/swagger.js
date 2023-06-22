@@ -1,13 +1,12 @@
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-const { version } = require('../package.json');
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'Rest API docs',
-      version,
+      version: '0.0.1',
     },
     components: {
       securitySchemes: {
@@ -33,7 +32,7 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsDoc(swaggerOptions);
 
-const initSwaggerDocs = (app, port) => {
+export const initSwaggerDocs = (app, port) => {
   // Swagger page
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -44,8 +43,4 @@ const initSwaggerDocs = (app, port) => {
   });
 
   console.log(`Docs available at http://localhost:${port}/docs`);
-};
-
-module.exports = {
-  initSwaggerDocs,
 };

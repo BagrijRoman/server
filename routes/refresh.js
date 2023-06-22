@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { handleRefreshTokens } from '../controllers/refreshTokensController.js';
+
 const router = express.Router();
-const { handleRefreshTokens } = require('../controllers/refreshTokensController');
 
 /**
  * @openapi
@@ -26,4 +27,4 @@ const { handleRefreshTokens } = require('../controllers/refreshTokensController'
 
 router.get('/', handleRefreshTokens);
 
-module.exports = router;
+export default router;

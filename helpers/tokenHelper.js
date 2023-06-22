@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const ACCESS_TOKEN_LIFETIME = process.env.ACCESS_TOKEN_LIFETIME || '3m';
 const REFRESH_TOKEN_LIFETIME = process.env.REFRESH_TOKEN_LIFETIME || '3d';
 
-const generateTokens = (tokenData) => ({
+export const generateTokens = (tokenData) => ({
   accessToken: jwt.sign(
     tokenData,
     process.env.ACCESS_TOKEN_SECRET,
@@ -16,16 +16,6 @@ const generateTokens = (tokenData) => ({
   ),
 });
 
-const verifyAccessToken = async (token) => jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+export const verifyAccessToken = async (token) => jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-const verifyRefreshToken = async (token) => jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
-
-tokenHelper = {
-  generateTokens,
-  verifyAccessToken,
-  verifyRefreshToken,
-}
-
-module.exports = {
-  tokenHelper,
-};
+export const verifyRefreshToken = async (token) => jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);

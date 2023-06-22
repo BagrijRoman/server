@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { getUserProfile } from '../controllers/getUserProfile.js';
+import { requireAuth } from '../middleware/requireAuth.js';
+
 const router = express.Router();
-const { getUserProfile } = require('../controllers/getUserProfile');
-const { requireAuth } = require('../middleware/requireAuth');
 
 /**
  * @openapi
@@ -23,4 +24,4 @@ const { requireAuth } = require('../middleware/requireAuth');
 router.use(requireAuth);
 router.get('/', getUserProfile);
 
-module.exports = router;
+export default router;

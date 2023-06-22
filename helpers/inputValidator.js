@@ -1,4 +1,4 @@
-const { Validator } = require('node-input-validator');
+import { Validator } from 'node-input-validator';
 
 const validatorRules = {
   email: { email: 'required|email' },
@@ -6,7 +6,7 @@ const validatorRules = {
   userName: { userName: 'required|minLength:3|maxLength:50' },
 };
 
-const validateRegistrationInput = async (data = {}) => {
+export const validateRegistrationInput = async (data = {}) => {
   const validator = new Validator(data, {
     ...validatorRules.email,
     ...validatorRules.password,
@@ -16,16 +16,11 @@ const validateRegistrationInput = async (data = {}) => {
   return validator.check();
 }
 
-const validateLoginInput = async (data = {}) => {
+export const validateLoginInput = async (data = {}) => {
   const validator = new Validator(data, {
     ...validatorRules.email,
     ...validatorRules.password,
   });
 
   return validator.check();
-}
-
-module.exports = {
-  validateRegistrationInput,
-  validateLoginInput,
 }
